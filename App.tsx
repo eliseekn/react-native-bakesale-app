@@ -7,7 +7,7 @@ import {RootStackParamList} from './src/interfaces'
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
-function App(): JSX.Element {
+const App = (): JSX.Element => {
     return (
         <NavigationContainer>
             <Stack.Navigator initialRouteName="Home">

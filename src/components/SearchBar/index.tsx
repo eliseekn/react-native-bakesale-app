@@ -1,5 +1,6 @@
 import React from 'react'
-import {StyleSheet, TextInput} from 'react-native'
+import {TextInput} from 'react-native'
+import {styles} from './styles'
 
 type Props = {
     onSearch: (text: string) => void
@@ -14,16 +15,5 @@ const SearchBar = ({onSearch}: Props): JSX.Element => {
         />
     )
 }
-
-const styles = StyleSheet.create({
-    input: {
-        fontSize: 17,
-        marginBottom: 15,
-        borderWidth: 1,
-        borderRadius: 5,
-        backgroundColor: 'white',
-        paddingHorizontal: 10,
-    },
-})
 
 export default SearchBar

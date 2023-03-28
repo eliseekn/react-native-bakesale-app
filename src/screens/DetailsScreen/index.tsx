@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react'
 import {
-    StatusBar,
-    StyleSheet,
     SafeAreaView,
     Image,
     View,
@@ -12,10 +10,13 @@ import {
     PanResponder,
     GestureResponderEvent,
     PanResponderGestureState,
+    Button,
+    Linking,
 } from 'react-native'
-import {DealType, RootStackParamList} from '../interfaces'
+import {DealType, RootStackParamList} from '../../interfaces'
 import {useRoute} from '@react-navigation/native'
 import type {RouteProp} from '@react-navigation/native'
+import {styles} from './styles'
 
 type Props = RouteProp<RootStackParamList, 'Details'>
 
@@ -40,6 +41,16 @@ const DetailsScreen = (): JSX.Element => {
             )
             imageOffsetX.setValue(0)
         })
+    }
+
+    const handleOpenLink = async () => {
+        Linking.canOpenURL(deal?.url as string).then(
+            async (canOpen: boolean) => {
+                if (canOpen) {
+                    await Linking.openURL(deal?.url!)
+                }
+            },
+        )
     }
 
     const panResponder = PanResponder.create({
@@ -73,7 +84,7 @@ const DetailsScreen = (): JSX.Element => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.card}>
                     {deal?.media.length && (
                         <Animated.View
@@ -103,10 +114,12 @@ const DetailsScreen = (): JSX.Element => {
                 <View style={styles.card}>
                     <View style={[styles.cardBody, {borderTopWidth: 0}]}>
                         <View style={{flex: 1, flexDirection: 'row'}}>
-                            <Image
-                                style={styles.cardAvatar}
-                                source={{uri: deal?.user?.avatar}}
-                            />
+                            {deal?.user?.avatar && (
+                                <Image
+                                    style={styles.cardAvatar}
+                                    source={{uri: deal?.user?.avatar}}
+                                />
+                            )}
                             <Text
                                 style={[
                                     styles.cardTitle,
@@ -126,50 +139,16 @@ const DetailsScreen = (): JSX.Element => {
                     </View>
                 </View>
             </ScrollView>
+
+            <View style={{paddingTop: 10, marginHorizontal: 80}}>
+                <Button
+                    color={'gray'}
+                    title={'Buy this deal!'}
+                    onPress={() => handleOpenLink()}
+                />
+            </View>
         </SafeAreaView>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginTop: StatusBar.currentHeight || 0,
-        marginHorizontal: 10,
-        marginBottom: 10,
-    },
-
-    card: {
-        backgroundColor: 'white',
-        marginVertical: 10,
-        borderWidth: 1,
-        borderRadius: 5,
-    },
-
-    cardBody: {
-        borderTopWidth: 1,
-        padding: 10,
-    },
-
-    cardTitle: {
-        fontSize: 17,
-        fontWeight: 'bold',
-        color: 'black',
-    },
-
-    cardText: {
-        fontSize: 15,
-        color: 'black',
-    },
-
-    cardImage: {
-        width: '100%',
-        height: 200,
-    },
-
-    cardAvatar: {
-        width: '25%',
-        height: 90,
-    },
-})
 
 export default DetailsScreen

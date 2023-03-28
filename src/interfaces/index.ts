@@ -6,6 +6,7 @@ export type DealType = {
     media: string[]
     user: {avatar: string; name: string}
     description: string
+    url: string
 }
 
 export type RootStackParamList = {
