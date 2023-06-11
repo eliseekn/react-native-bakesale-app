@@ -7,12 +7,15 @@ import {styles} from './styles'
 
 const HomeScreen = (): JSX.Element => {
     const [dealList, setDealList] = useState<DealType[]>([])
+    const [searchQuery, setSearchQuery] = useState<string>('')
 
     useEffect(() => {
         fetchDealList('')
     }, [])
 
     const fetchDealList = async (query: string) => {
+        setSearchQuery(query)
+
         const url =
             query !== ''
                 ? 'https://bakesaleforgood.com/api/deals?searchTerm=' + query
@@ -25,7 +28,7 @@ const HomeScreen = (): JSX.Element => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <SearchBar onSearch={fetchDealList} />
+            <SearchBar onSearch={fetchDealList} searchQuery={searchQuery} />
             <DealList data={dealList} />
         </SafeAreaView>
     )

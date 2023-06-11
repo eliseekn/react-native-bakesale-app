@@ -1,17 +1,20 @@
 import React from 'react'
-import {TextInput} from 'react-native'
+// import {TextInput} from 'react-native'
 import {styles} from './styles'
+import {Searchbar} from 'react-native-paper'
 
 type Props = {
     onSearch: (text: string) => void
+    searchQuery: string
 }
 
-const SearchBar = ({onSearch}: Props): JSX.Element => {
+const SearchBar = ({onSearch, searchQuery}: Props): JSX.Element => {
     return (
-        <TextInput
-            style={styles.input}
+        <Searchbar
             placeholder={'Search deal'}
             onChangeText={onSearch}
+            value={searchQuery}
+            style={styles.input}
         />
     )
 }
