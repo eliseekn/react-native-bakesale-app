@@ -11,7 +11,7 @@ const HomeScreen = (): JSX.Element => {
 
     useEffect(() => {
         fetchDealList('')
-    }, [])
+    })
 
     const fetchDealList = async (query: string) => {
         setSearchQuery(query)

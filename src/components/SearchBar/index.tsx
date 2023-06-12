@@ -1,6 +1,4 @@
 import React from 'react'
-// import {TextInput} from 'react-native'
-import {styles} from './styles'
 import {Searchbar} from 'react-native-paper'
 
 type Props = {
@@ -14,7 +12,11 @@ const SearchBar = ({onSearch, searchQuery}: Props): JSX.Element => {
             placeholder={'Search deal'}
             onChangeText={onSearch}
             value={searchQuery}
-            style={styles.input}
+            style={{
+                marginBottom: 15,
+                borderRadius: 15,
+                backgroundColor: 'white',
+            }}
         />
     )
 }

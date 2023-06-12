@@ -3,20 +3,19 @@ import {
     SafeAreaView,
     Image,
     View,
-    Text,
     ScrollView,
     Dimensions,
     Animated,
     PanResponder,
     GestureResponderEvent,
     PanResponderGestureState,
-    Button,
     Linking,
 } from 'react-native'
 import {DealType, RootStackParamList} from '../../interfaces'
 import {useRoute} from '@react-navigation/native'
 import type {RouteProp} from '@react-navigation/native'
 import {styles} from './styles'
+import {Card, Avatar, Text, HelperText, Button} from 'react-native-paper'
 
 type Props = RouteProp<RootStackParamList, 'Details'>
 
@@ -80,72 +79,85 @@ const DetailsScreen = (): JSX.Element => {
         fetch('https://bakesaleforgood.com/api/deals/' + route.params.dealKey)
             .then(res => res.json())
             .then(data => setDeal(data))
-    }, [])
+    })
 
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={styles.card}>
+                <HelperText type="info" style={{textAlign: 'right'}}>
+                    Swipe left or right for more images
+                </HelperText>
+
+                <Card style={{backgroundColor: 'white', marginBottom: 15}}>
                     {deal?.media.length && (
                         <Animated.View
                             {...panResponder.panHandlers}
-                            style={[
-                                styles.cardImage,
-                                {transform: [{translateX: imageOffsetX}]},
-                            ]}>
+                            style={{
+                                transform: [{translateX: imageOffsetX}],
+                            }}>
                             <Image
-                                style={styles.cardImage}
+                                style={{height: 200, borderRadius: 15}}
                                 source={{uri: deal?.media[imageIndex]}}
                             />
                         </Animated.View>
                     )}
-                    <View style={styles.cardBody}>
-                        <Text style={styles.cardTitle}>{deal?.title}</Text>
-                        <Text style={styles.cardText}>
+                    <Card.Content style={{marginTop: 10}}>
+                        <Text variant="titleMedium" style={{fontSize: 18}}>
+                            {deal?.title}
+                        </Text>
+                        <Text variant="bodyLarge">
                             {new Intl.NumberFormat('us-US', {
                                 style: 'currency',
                                 currency: 'USD',
                             }).format(deal?.price! / 100)}
                         </Text>
-                        <Text style={styles.cardText}>{deal?.cause.name}</Text>
-                    </View>
-                </View>
+                        <Text variant="bodyLarge" style={{fontWeight: 'bold'}}>
+                            {deal?.cause.name}
+                        </Text>
+                    </Card.Content>
+                </Card>
 
-                <View style={styles.card}>
-                    <View style={[styles.cardBody, {borderTopWidth: 0}]}>
-                        <View style={{flex: 1, flexDirection: 'row'}}>
+                <Card style={{backgroundColor: 'white', marginBottom: 15}}>
+                    <Card.Content>
+                        <View
+                            style={{
+                                flex: 1,
+                                flexDirection: 'row',
+                                alignItems: 'center',
+                            }}>
                             {deal?.user?.avatar && (
-                                <Image
-                                    style={styles.cardAvatar}
+                                <Avatar.Image
+                                    size={80}
                                     source={{uri: deal?.user?.avatar}}
                                 />
                             )}
+
                             <Text
-                                style={[
-                                    styles.cardTitle,
-                                    {marginLeft: 5, fontSize: 20},
-                                ]}>
+                                variant="titleLarge"
+                                style={{marginLeft: 15, fontWeight: 'bold'}}>
                                 {deal?.user?.name}
                             </Text>
                         </View>
 
                         <Text
-                            style={[
-                                styles.cardText,
-                                {textAlign: 'justify', marginTop: 10},
-                            ]}>
+                            variant="bodyLarge"
+                            style={{textAlign: 'justify', marginTop: 10}}>
                             {deal?.description}
                         </Text>
-                    </View>
-                </View>
+                    </Card.Content>
+                </Card>
             </ScrollView>
 
-            <View style={{paddingTop: 10, marginHorizontal: 80}}>
+            <View style={{marginTop: 15, marginHorizontal: 80}}>
                 <Button
-                    color={'gray'}
-                    title={'Buy this deal!'}
-                    onPress={() => handleOpenLink()}
-                />
+                    icon="shopping-outline"
+                    textColor="white"
+                    buttonColor="gray"
+                    mode="contained-tonal"
+                    labelStyle={{fontSize: 18}}
+                    onPress={() => handleOpenLink()}>
+                    Buy this deal!
+                </Button>
             </View>
         </SafeAreaView>
     )
