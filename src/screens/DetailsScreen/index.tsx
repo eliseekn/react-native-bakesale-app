@@ -14,7 +14,7 @@ import {
 import {DealType, RootStackParamList} from '../../interfaces'
 import {useRoute} from '@react-navigation/native'
 import type {RouteProp} from '@react-navigation/native'
-import {styles} from './styles'
+import {styles} from '../styles'
 import {Card, Avatar, Text, HelperText, Button} from 'react-native-paper'
 
 type Props = RouteProp<RootStackParamList, 'Details'>

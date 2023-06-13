@@ -3,7 +3,7 @@ import {SafeAreaView} from 'react-native'
 import DealList from '../../components/DealList'
 import SearchBar from '../../components/SearchBar'
 import {DealType} from '../../interfaces'
-import {styles} from './styles'
+import {styles} from '../styles'
 
 const HomeScreen = (): JSX.Element => {
     const [dealList, setDealList] = useState<DealType[]>([])
